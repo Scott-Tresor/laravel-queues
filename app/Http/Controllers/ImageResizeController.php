@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\ResizeEvent;
 use App\Jobs\ResizeJob;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -28,6 +29,7 @@ class ImageResizeController extends Controller
 
         $formats = [100, 200, 400, 600,  800, 1000, 1024];
         $this->dispatch(new ResizeJob($file, $formats, 'scotttresor@gmail.com'));
+        event(new ResizeEvent($formats));
 
         return view('images.create');
     }
