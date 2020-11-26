@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Mail\ImageResizeEmail;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -53,7 +52,6 @@ class ResizeJob implements ShouldQueue
             $images  = new ImageManager(['driver', 'gd']);
             $images->make($this->file)
                 ->fit($size, $size)
-                ->contrast(65)
                 ->save(public_path('uploads'). "/".pathinfo($this->file, PATHINFO_FILENAME). "_{$size}X{$size}.jpg")
             ;
         }
