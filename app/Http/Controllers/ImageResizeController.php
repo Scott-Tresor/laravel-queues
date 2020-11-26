@@ -27,7 +27,7 @@ class ImageResizeController extends Controller
         $file = $uploadFiles->move(public_path('uploads'), $uploadFiles->getClientOriginalName());
 
         $formats = [100, 200, 400, 600,  800, 1000, 1024];
-        $this->dispatch(new ResizeJob($file, $formats));
+        $this->dispatch(new ResizeJob($file, $formats, 'scotttresor@gmail.com'));
 
         return view('images.create');
     }
