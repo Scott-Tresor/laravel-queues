@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Jobs\ResizeJob;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManager;
 
 class ImageResizeController extends Controller
 {
@@ -20,5 +22,13 @@ class ImageResizeController extends Controller
     }
 
     public function store(Request $request)
-    {}
+    {
+        $uploadFiles = $request->file('images');
+        $file = $uploadFiles->move(public_path('uploads'), $uploadFiles->getClientOriginalName());
+
+        $formats = [100, 200, 400, 600,  800, 1000, 1024];
+        $this->dispatch(new ResizeJob($file, $formats));
+
+        return view('images.create');
+    }
 }
